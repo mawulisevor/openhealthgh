@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Open Health Ghana</title>
+        <!--link rel='stylesheet' type='text/css' href='css/Bubune.min.css'/ -->
+        <link rel="stylesheet" type='text/css' href="css/jquery.mobile.structure-1.4.0.min.css" />
+        <link rel="stylesheet" type='text/css' href="css/jquery.mobile.icons.min.css" />
+        <link rel='stylesheet' type='text/css' href='css/jquery.mobile-1.4.0.min.css'/>
+        <script type='text/javascript' src='js/jquery.js'></script>
+        <script type='text/javascript' src='js/jquery.mobile-1.4.0.min.js'></script>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script>
+            $(function() {
+                $( "[data-role='navbar']" ).navbar();
+                $( "[data-role='header'], [data-role='footer']" ).toolbar();
+            });
+            // Update the contents of the toolbars
+            $( document ).on( "pageshow", "[data-role='page']", function() {
+                var current = $( this ).jqmData( "title" );
+                // Change the heading
+                $( "[data-role='header'] h1" ).text( current );
+                // Remove active class from nav buttons
+                $( "[data-role='navbar'] a.ui-btn-active" ).removeClass( "ui-btn-active" );
+                // Add active class to current nav button
+                $( "[data-role='navbar'] a" ).each(function() {
+                    if ( $( this ).text() === current ) {
+                        $( this ).addClass( "ui-btn-active" );
+                    }
+                });
+            });
+        </script>
+        <style>
+          #map_canvas {
+            width: 500px;
+            height: 400px;
+          }
+        </style>
+    </head>
+<body>
+    <div data-role="header" data-position="fixed" data-theme="a">
+        <a href="#home" data-rel="back" class="ui-btn ui-btn-left ui-alt-icon ui-nodisc-icon ui-corner-all ui-btn-icon-notext ui-icon-carat-l">Back</a>
+        <h1>Open Health Ghana</h1>
+    </div><!-- /header -->
+    <div id="home" data-role="page" data-title="Open Health Ghana :: Home" data-theme="b">
+        <div role="main" class="ui-content">
+            <h4>Welcome to the Open Health App for Ghana</h4>
+            <ul>
+                <li>
+                    <blockquote>Open data is data that can be freely used, reused and redistributed by anyone – subject only, at most, to the requirement to attribute and share-alike.” <cite>OpenDefinition.org</cite>
+                    </blockquote>
+                </li>
+                <li>It is our belief that open data can improve health service delivery</li>
+                <li>This is a rapid prototype to show how open data about health facilities in Ghana can help users easily locate a facility on a map.</li>
+            </ul>
+                
+        </div>
+    </div>
+    <div id="regions" data-role="page" data-title="Open Health Ghana :: Regions" data-theme="b">
+        <div role="main" class="ui-content">
+            <h4>Please select a region to continue</h4>
+                <h4>Choose region</h4>
+                <ul class="regionslist" data-role="listview" data-filter="true" data-filter-placeholder="Search for facility..." data-inset="true"></ul>
+        </div>
+    </div>
+    <div id="facsinreg" data-role="page" data-title="Open Health Ghana :: Facilities" data-theme="b" data-cache="false">
+        <h4>Please search for a facility in the <span id="regname"></span> region of Ghana</h4>
+        </header>
+        <div role="main" class="ui-content">
+            <div>
+                <ul id="facilities" data-role="listview" data-filter="true"></ul>
+            </div>
+        </div>
+    </div>
+    <div id="facdetails" data-role="page" data-title="Open Health Ghana :: Facility Details" data-theme="b">
+        <div role="main" class="ui-content">
+            <div id="facname"></div>
+            <div id="fac" ></div>
+            <div data-role="popup" id="map_canvas">
+            </div>
+            
+            <br />
+            <form>
+                <label for="rate-fac">Rate this facility</label>
+                <input type="range" name="rate-fac" id="slider" value="0" min="0" max="10">
+                <label for="comment">What are your comments about service at this facility?</label>
+                <textarea name="comment" id="comment"></textarea>
+            </form>
+        </div>
+    </div>
+    <div id="feedback" data-role="page" data-title="Open Health Ghana :: Feedback" data-theme="b">
+        <div role="main" class="ui-content">
+            <h4>Feedback is our fuel</h4>
+            <p>Your feedback enables us to continuosly improve this app</p>
+            <p>As a perpetual beta app, your feedback drives us to add more features that will improve your patronage of health services in Ghana</p>
+            <form>
+                <fieldset data-role="controlgroup">
+                    <legend>Feature request (Tick or check the features you wish to request)</legend>
+                    <input type="checkbox" name="f1" id="f1">
+                    <label for="f1">Drugs and other logistics in stock at the facility</label>
+                    <input type="checkbox" name="f2" id="f2">
+                    <label for="f2">Contact details</label>
+                    <input type="checkbox" name="f3" id="f3">
+                    <label for="f3">List of personnels and their qualifications</label>
+                    <input type="checkbox" name="f4" id="f4">
+                    <label for="f4">Announcements and alerts</label>
+                </fieldset>
+                <label for="rate-app">Has this app been useful?</label>
+                <select name="rate-app1" id="rate-app" data-role="slider" data-mini="true">
+                    <option value="off">No</option>
+                    <option value="on" selected="">Yes</option>
+                </select>
+                <label for="rate-app2">Rate this app</label>
+                <input type="range" name="rate-app2" id="slider" value="0" min="0" max="10">
+                <label for="comment1">What are your comments about this app?</label>
+                <textarea name="comment1" id="comment1"></textarea>
+            </form>
+        </div>
+    </div>
+    <div data-role="footer" data-position="fixed" data-theme="a">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#regions" data-prefetch="true">Regions</a></li>
+                <li><a href="#feedback" data-prefetch="true">Feedback</a></li>
+            </ul>
+        </div><!-- /navbar -->
+    </div><!-- /footer -->
+    
+</body>
+  <script>
+// Used to populate page for region names from json file  
+$(document).ready(function(){
+    $.getJSON("data/regions.json",function(data){
+        $.each(data, function(i,data)
+        {
+            var div_data =
+            "<li id='"+data.Region+"' onClick='facsInReg(this.id);'><a href='#facsinreg'>"+data.Region+"</a></li>";
+            $(".regionslist").append(div_data); // Page ID= regsingh
+        });
+    });
+});    
+
+// from the region search
+
+function facsInReg(sfind){
+    $(document).ready(function(){
+        $("#regname").append(sfind); // = Region name
+            var fileurl="data/facs.json";
+            $.getJSON(fileurl,function(data){
+                $.each(data, function(i,data){
+                    if (data.Region == sfind) {
+                      var div_data =
+                      "<div><li id='"+data.fCode+"' onClick='facDetails(this.id);'><a href='#facdetails'>"+data.FacName+"</a></li></div>";
+                      $("#facilities").append(div_data); // Facilities page
+                    }
+                });
+            });
+    });
+}
+
+function facDetails(sfind){
+    $(document).ready(function(){
+        var fileurl="data/facs.json";
+        $.getJSON(fileurl,function(data){
+            $.each(data, function(i,data){
+                if (data.fCode == sfind) {
+                  var div_data =
+                  "<div><h4>"+data.FacName+"</h4><li>Region: "+data.Region+"</li><li>District: "+data.District+"</li><li>Facility Type: "+data.FacType+"</li><li>Town: "+data.Town+"</li><li>Type of Ownership: "+data.FacOwner+"</li><li id='"+data.fCode+"'onClick='mapme("+data.Lat+","+data.Lon+");'><a href='#map_canvas' data-rel='popup' class='ui-btn ui-corner-all ui-shadow ui-btn-inline' data-transition='pop'>Show map</a></li></div>";
+                  $('#fac').empty();
+                  $("#fac").append(div_data);
+                }
+            });
+        });
+    });
+}
+
+function mapme(latit,longit){
+var myLatlng = new google.maps.LatLng(latit,longit);
+  var mapOptions = {
+    zoom: 10,
+    center: myLatlng
+  }
+  var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: 'Facility is located here'
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', mapme);
+</script>
+
+</html>

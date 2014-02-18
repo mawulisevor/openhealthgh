@@ -1,0 +1,42 @@
+[
+  {
+    "rcode":101,
+    "Region":"Ashanti"
+  },
+  {
+    "rcode":102,
+    "Region":"Brong Ahafo"
+  },
+  {
+    "rcode":103,
+    "Region":"Central"
+  },
+  {
+    "rcode":104,
+    "Region":"Eastern"
+  },
+  {
+    "rcode":105,
+    "Region":"Greater Accra"
+  },
+  {
+    "rcode":106,
+    "Region":"Northern"
+  },
+  {
+    "rcode":107,
+    "Region":"Upper East"
+  },
+  {
+    "rcode":108,
+   "Region":"Upper West"
+  },
+  {
+    "rcode":109,
+    "Region":"Volta"
+  },
+  {
+    "rcode":110,
+    "Region":"Western"
+  }
+]
